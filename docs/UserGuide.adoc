@@ -35,6 +35,7 @@ This user guide introduces you to the features MedNus have and leads you through
  +
 You are required to know how to use Java to run a Graphical User Interface (GUI) application. +
 
+test
 
 == *GETTING STARTED*
 
