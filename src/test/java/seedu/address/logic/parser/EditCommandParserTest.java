@@ -13,10 +13,13 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_BLOODTYPE_DES
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_RELATIONSHIP_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.RELATIONSHIP_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.RELATIONSHIP_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
@@ -31,6 +34,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RELATIONSHIP_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RELATIONSHIP_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
@@ -52,6 +57,7 @@ import seedu.address.model.person.Bloodtype;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -100,6 +106,9 @@ public class EditCommandParserTest {
         // invalid bloodtype
         assertParseFailure(parser, "1" + INVALID_BLOODTYPE_DESC, Bloodtype.MESSAGE_BLOODTYPE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
+        // invalid relationship
+        assertParseFailure(parser, "1"
+                + INVALID_RELATIONSHIP_DESC, Relationship.MESSAGE_RELATIONSHIP_CONSTRAINTS);
 
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_PHONE_CONSTRAINTS);
@@ -124,12 +133,12 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_SECOND_PERSON;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND
-                + REMARK_DESC_AMY;
+                + REMARK_DESC_AMY + RELATIONSHIP_DESC_AMY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
-                .withRemark(VALID_REMARK_AMY).build();
+                .withRemark(VALID_REMARK_AMY).withRelationship(VALID_RELATIONSHIP_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -198,6 +207,11 @@ public class EditCommandParserTest {
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
+        // relationship
+        userInput = targetIndex.getOneBased() + RELATIONSHIP_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder().withRelationship(VALID_RELATIONSHIP_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
@@ -206,14 +220,15 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased()
                 + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
                 + BLOODTYPE_DESC_AMY + REMARK_DESC_AMY + TAG_DESC_FRIEND
-                + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
-                + BLOODTYPE_DESC_AMY + REMARK_DESC_AMY + TAG_DESC_FRIEND
-                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB
-                + BLOODTYPE_DESC_BOB + REMARK_DESC_BOB + TAG_DESC_HUSBAND;
+                + RELATIONSHIP_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
+                + BLOODTYPE_DESC_AMY + REMARK_DESC_AMY + RELATIONSHIP_DESC_AMY + TAG_DESC_FRIEND
+                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + BLOODTYPE_DESC_BOB
+                + REMARK_DESC_BOB + RELATIONSHIP_DESC_BOB + TAG_DESC_HUSBAND;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withBloodType(VALID_BLOODTYPE_BOB)
-                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).withRemark(VALID_REMARK_BOB).build();
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).withRemark(VALID_REMARK_BOB)
+                .withRelationship(VALID_RELATIONSHIP_BOB).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -230,10 +245,10 @@ public class EditCommandParserTest {
 
         // other valid values specified
         userInput = targetIndex.getOneBased() + EMAIL_DESC_BOB + INVALID_PHONE_DESC + ADDRESS_DESC_BOB
-                + BLOODTYPE_DESC_BOB + REMARK_DESC_BOB + PHONE_DESC_BOB;
+                + BLOODTYPE_DESC_BOB + REMARK_DESC_BOB + RELATIONSHIP_DESC_BOB + PHONE_DESC_BOB;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withBloodType(VALID_BLOODTYPE_BOB)
-                .withRemark(VALID_REMARK_BOB).build();
+                .withRemark(VALID_REMARK_BOB).withRelationship(VALID_RELATIONSHIP_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

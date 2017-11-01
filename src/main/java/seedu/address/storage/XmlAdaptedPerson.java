@@ -18,6 +18,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
@@ -42,6 +43,8 @@ public class XmlAdaptedPerson {
     private String appointmentDate;
     @XmlElement
     private String appointmentEndDate;
+    @XmlElement
+    private String relation;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -80,6 +83,7 @@ public class XmlAdaptedPerson {
         } else {
             appointmentEndDate = null;
         }
+        relation = "Is related to " + source.getRelationship().relation;
     }
 
     /**
@@ -99,6 +103,7 @@ public class XmlAdaptedPerson {
         final Bloodtype bloodType = new Bloodtype(this.bloodType);
         final Set<Tag> tags = new HashSet<>(personTags);
         final Remark remark = new Remark(this.remark);
+        final Relationship relation = new Relationship(this.relation);
         final Appointment appointment;
         // if there is previously an appointment date, the constructor with appointment date is called
         try {
@@ -115,10 +120,11 @@ public class XmlAdaptedPerson {
             } else {
                 appointment = new Appointment(name.toString());
             }
-            return new Person(name, phone, email, address, bloodType, tags, remark, appointment);
+            return new Person(name, phone, email, address, bloodType, tags, remark, appointment, relation);
         } catch (ParseException e) {
             e.printStackTrace();
-            return new Person(name, phone, email, address, bloodType, tags, remark, new Appointment(name.toString()));
+            return new Person(name, phone, email, address, bloodType, tags, remark,
+                    new Appointment(name.toString()), relation);
         }
 
     }

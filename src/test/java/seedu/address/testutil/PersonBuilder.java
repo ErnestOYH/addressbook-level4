@@ -13,6 +13,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -30,6 +31,7 @@ public class PersonBuilder {
     public static final String DEFAULT_TAGS = "friends";
     public static final String DEFAULT_REMARK = "";
     public static final String DEFAULT_DATE = "2018/01/01 00:00";
+    public static final String DEFAULT_RELATIONSHIP = "John Doe";
     private Person person;
 
     public PersonBuilder() {
@@ -41,6 +43,7 @@ public class PersonBuilder {
             Bloodtype defaultBloodType = new Bloodtype(DEFAULT_BLOODTYPE);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
             Remark defaultRemark = new Remark(DEFAULT_REMARK);
+            Relationship defaultRelationship = new Relationship(DEFAULT_RELATIONSHIP);
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(Appointment.DATE_FORMATTER.parse(DEFAULT_DATE));
@@ -49,7 +52,7 @@ public class PersonBuilder {
             }
             Appointment  appointment = new Appointment(defaultName.toString(), calendar);
             this.person = new Person(defaultName, defaultPhone, defaultEmail,
-                defaultAddress, defaultBloodType, defaultTags, defaultRemark, appointment);
+                defaultAddress, defaultBloodType, defaultTags, defaultRemark, appointment, defaultRelationship);
         } catch (IllegalValueException ive) {
             throw new AssertionError("Default person's values are invalid.");
         }
@@ -187,4 +190,17 @@ public class PersonBuilder {
         return this.person;
     }
 
+    //@@author Ernest
+    /**
+     * Sets the {@code Relationship} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRelationship(String relation) {
+        try {
+            this.person.setRelationship(new Relationship(relation));
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("relation is expected to be unique.");
+        }
+        return this;
+    }
+    //@@author
 }

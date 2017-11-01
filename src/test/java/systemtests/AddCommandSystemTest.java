@@ -12,6 +12,7 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_BLOODTYPE_DES
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_RELATIONSHIP_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -19,9 +20,11 @@ import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_ADDRES
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_BLOODTYPE;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_PHONE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_RELATIONSHIP;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_REMARK;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.RELATIONSHIP_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
@@ -34,6 +37,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RELATIONSHIP_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -59,6 +63,7 @@ import seedu.address.model.person.Bloodtype;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
@@ -175,7 +180,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: missing remark -> success */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + TAG_DESC_FRIEND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -184,7 +190,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
                 + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -193,7 +200,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND
                 + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -202,7 +210,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + BLOODTYPE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
@@ -210,7 +219,17 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
                 .withBloodType(NON_COMPULSORY_BLOODTYPE).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + TAG_DESC_FRIEND + RELATIONSHIP_DESC_AMY;
+        assertCommandSuccess(command, toAdd);
+
+        /* Case: missing relation -> success */
+        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
+                .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
+                .withBloodType(NON_COMPULSORY_BLOODTYPE).withRemark(NON_COMPULSORY_REMARK)
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
         //@@author
@@ -250,6 +269,13 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
+
+        //@@author Ernest
+        /* Case: invalid relation -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY + INVALID_RELATIONSHIP_DESC;
+        assertCommandFailure(command, Relationship.MESSAGE_RELATIONSHIP_CONSTRAINTS);
+        //@@author
     }
 
     /**

@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -33,6 +34,7 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_BLOODTYPE + "BLOODTYPE]"
             + "[" + PREFIX_REMARK + "REMARK]"
             + "[" + PREFIX_DATE + "DATE]"
+            + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example 1: " + COMMAND_ALIAS + " "
             + PREFIX_NAME + "John Doe "
@@ -51,7 +53,8 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_ADDRESS + "170, Bugis Ave 3, #01-05 "
             + PREFIX_BLOODTYPE + "A "
             + PREFIX_REMARK + "Healthy "
-            + PREFIX_TAG + "wife ";
+            + PREFIX_TAG + "wife "
+            + PREFIX_RELATIONSHIP + "John Doe ";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";

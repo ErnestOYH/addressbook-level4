@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.person.Bloodtype.NON_COMPULSORY_BLOODTYPE;
@@ -28,6 +29,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
@@ -45,7 +47,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_BLOODTYPE, PREFIX_REMARK, PREFIX_DATE, PREFIX_TAG);
+                        PREFIX_BLOODTYPE, PREFIX_REMARK, PREFIX_DATE, PREFIX_RELATIONSHIP, PREFIX_TAG);
 
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)) {
@@ -67,6 +69,9 @@ public class AddCommandParser implements Parser<AddCommand> {
                     : ParserUtil.parseBloodType(argMultimap.getValue(PREFIX_BLOODTYPE)).get();
             Remark remark = (!arePrefixesPresent(argMultimap, PREFIX_REMARK))
                     ? new Remark("") : ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK)).get();
+            Relationship relation = (!arePrefixesPresent(argMultimap, PREFIX_RELATIONSHIP))
+                    ? new Relationship("")
+                    : ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP)).get();
             //@@author
 
             Optional<Date> date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE));
@@ -79,7 +84,8 @@ public class AddCommandParser implements Parser<AddCommand> {
                 appointment = new Appointment(name.toString());
             }
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            ReadOnlyPerson person = new Person(name, phone, email, address, bloodType, tagList, remark, appointment);
+            ReadOnlyPerson person = new Person(name, phone, email, address, bloodType,
+                    tagList, remark, appointment, relation);
             return new AddCommand(person);
         } catch (IllegalValueException | java.text.ParseException ive) {
             throw new ParseException(ive.getMessage(), ive);

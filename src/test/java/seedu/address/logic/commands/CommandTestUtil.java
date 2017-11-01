@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -44,12 +45,15 @@ public class CommandTestUtil {
     public static final String VALID_REMARK_BOB = "loves coffee";
     public static final String VALID_DATE_AMY = "2020/01/01 00:00";
     public static final String VALID_DATE_BOB = "2020/01/01 00:00";
+    public static final String VALID_RELATIONSHIP_AMY = "BOB";
+    public static final String VALID_RELATIONSHIP_BOB = "AMY";
 
     public static final String NON_COMPULSORY_PHONE_AMY = "000";
     public static final String NON_COMPULSORY_EMAIL_AMY = "null@null.com";
     public static final String NON_COMPULSORY_ADDRESS_AMY = "???";
     public static final String NON_COMPULSORY_BLOODTYPE = "xxx";
     public static final String NON_COMPULSORY_REMARK = "";
+    public static final String NON_COMPULSORY_RELATIONSHIP = "";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -67,6 +71,8 @@ public class CommandTestUtil {
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
     public static final String DATE_DESC_AMY = " " + PREFIX_DATE + VALID_DATE_AMY;
     public static final String DATE_DESC_BOB = " " + PREFIX_DATE + VALID_DATE_BOB;
+    public static final String RELATIONSHIP_DESC_AMY = " " + PREFIX_RELATIONSHIP + VALID_RELATIONSHIP_AMY;
+    public static final String RELATIONSHIP_DESC_BOB = " " + PREFIX_RELATIONSHIP + VALID_RELATIONSHIP_BOB;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -76,6 +82,7 @@ public class CommandTestUtil {
     public static final String INVALID_BLOODTYPE_DESC = " " + PREFIX_BLOODTYPE + "ABCDE";
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_DATE =  " " + PREFIX_DATE + "1/1/1 1123:22 "; // not allowed format for date
+    public static final String INVALID_RELATIONSHIP_DESC = " " + PREFIX_RELATIONSHIP + "John%"; // '%' not allowed in names
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;

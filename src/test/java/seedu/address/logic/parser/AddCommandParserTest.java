@@ -19,9 +19,11 @@ import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_ADDRES
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_BLOODTYPE;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_PHONE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_RELATIONSHIP;
 import static seedu.address.logic.commands.CommandTestUtil.NON_COMPULSORY_REMARK;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.RELATIONSHIP_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.REMARK_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
@@ -35,6 +37,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RELATIONSHIP_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -109,15 +112,18 @@ public class AddCommandParserTest {
         //missing phone
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(VALID_REMARK_AMY).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(VALID_REMARK_AMY)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
-                        + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY + REMARK_DESC_AMY,
+                        + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY
+                        + REMARK_DESC_AMY + RELATIONSHIP_DESC_AMY,
                 new AddCommand(expectedPerson));
 
         //missing remark
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
                         + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY,
                 new AddCommand(expectedPerson));
@@ -125,22 +131,35 @@ public class AddCommandParserTest {
         //missing bloodtype
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY, new AddCommand(expectedPerson));
 
         //missing address
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(NON_COMPULSORY_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
-                + EMAIL_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + RELATIONSHIP_DESC_AMY, new AddCommand(expectedPerson));
 
         //missing email
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(NON_COMPULSORY_EMAIL_AMY)
                 .withAddress(NON_COMPULSORY_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY, new AddCommand(expectedPerson));
+
+        //missing relationship
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
+                .withPhone(VALID_PHONE_AMY).withRemark(VALID_REMARK_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
+                        + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY
+                        + REMARK_DESC_AMY,
+                new AddCommand(expectedPerson));
         //@@author
     }
 

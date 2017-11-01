@@ -28,6 +28,8 @@ public interface ReadOnlyPerson {
     Remark getRemark();
     ObjectProperty<Appointment> appointmentProperty();
     Appointment getAppointment();
+    ObjectProperty<Relationship> relationshipProperty();
+    Relationship getRelationship();
     /**
      * Returns true if both have the same state. (interfaces cannot override .equals)
      */
@@ -57,7 +59,9 @@ public interface ReadOnlyPerson {
                 .append(getBloodType())
                 .append(" Tags: ")
                 .append(getRemark())
-                .append(" Remark: ");
+                .append(" Remark: ")
+                .append(getRelationship())
+                .append(" Relationship: ");
         getTags().forEach(builder::append);
         return builder.toString();
     }

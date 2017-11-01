@@ -537,15 +537,18 @@ public class RemarkCommandTest {
         //missing phone
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(VALID_REMARK_AMY).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(VALID_REMARK_AMY)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
-                        + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY + REMARK_DESC_AMY,
+                        + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY
+                        + REMARK_DESC_AMY + RELATIONSHIP_DESC_AMY,
                 new AddCommand(expectedPerson));
 
         //missing remark
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
                         + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY,
                 new AddCommand(expectedPerson));
@@ -553,22 +556,35 @@ public class RemarkCommandTest {
         //missing bloodtype
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY, new AddCommand(expectedPerson));
 
         //missing address
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(NON_COMPULSORY_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
-                + EMAIL_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + RELATIONSHIP_DESC_AMY, new AddCommand(expectedPerson));
 
         //missing email
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(NON_COMPULSORY_EMAIL_AMY)
                 .withAddress(NON_COMPULSORY_ADDRESS_AMY).withBloodType(NON_COMPULSORY_BLOODTYPE)
-                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK).build();
+                .withPhone(NON_COMPULSORY_PHONE_AMY).withRemark(NON_COMPULSORY_REMARK)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY, new AddCommand(expectedPerson));
+
+        //missing relationship
+                expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withEmail(VALID_EMAIL_AMY)
+                        .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY)
+                        .withPhone(VALID_PHONE_AMY).withRemark(VALID_REMARK_AMY)
+                        .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
+                assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
+                                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY
+                                + REMARK_DESC_AMY,
+                        new AddCommand(expectedPerson));
 ```
 ###### \java\seedu\address\logic\parser\AddressBookParserTest.java
 ``` java
@@ -961,7 +977,7 @@ public class TagContainsKeywordsPredicateTest {
         try {
             ParserUtil.parseRemark(Optional.of(remark)).ifPresent(descriptor::setRemark);
         } catch (IllegalValueException ive) {
-            throw new IllegalArgumentException("bloodtype is expected to be unique.");
+            throw new IllegalArgumentException("remark is expected to be unique.");
         }
         return this;
     }
@@ -2014,7 +2030,8 @@ public class TagContainsKeywordsPredicateTest {
         /* Case: missing remark -> success */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY).withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + TAG_DESC_FRIEND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -2023,7 +2040,8 @@ public class TagContainsKeywordsPredicateTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
                 + ADDRESS_DESC_AMY + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -2032,7 +2050,8 @@ public class TagContainsKeywordsPredicateTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_FRIEND
                 + BLOODTYPE_DESC_AMY;
         assertCommandSuccess(command, toAdd);
@@ -2041,7 +2060,8 @@ public class TagContainsKeywordsPredicateTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
                 .withBloodType(VALID_BLOODTYPE_AMY).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + BLOODTYPE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
@@ -2049,7 +2069,17 @@ public class TagContainsKeywordsPredicateTest {
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
                 .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
                 .withBloodType(NON_COMPULSORY_BLOODTYPE).withRemark(NON_COMPULSORY_REMARK)
-                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + TAG_DESC_FRIEND;
+                .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                .withRelationship(VALID_RELATIONSHIP_AMY).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + TAG_DESC_FRIEND + RELATIONSHIP_DESC_AMY;
         assertCommandSuccess(command, toAdd);
+
+        /* Case: missing relation -> success */
+                toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NON_COMPULSORY_PHONE_AMY)
+                        .withEmail(NON_COMPULSORY_EMAIL_AMY).withAddress(NON_COMPULSORY_ADDRESS_AMY)
+                        .withBloodType(NON_COMPULSORY_BLOODTYPE).withRemark(NON_COMPULSORY_REMARK)
+                        .withTags(VALID_TAG_FRIEND).withAppointment(VALID_NAME_AMY)
+                        .withRelationship(NON_COMPULSORY_RELATIONSHIP).build();
+                command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + TAG_DESC_FRIEND;
+                assertCommandSuccess(command, toAdd);
 ```

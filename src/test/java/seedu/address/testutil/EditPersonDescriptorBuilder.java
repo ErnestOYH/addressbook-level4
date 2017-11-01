@@ -37,6 +37,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setRemark(person.getRemark());
         descriptor.setTags(person.getTags());
         descriptor.setDate(person.getAppointment().getDate());
+        descriptor.setRelationship(person.getRelationship());
     }
 
     /**
@@ -109,7 +110,7 @@ public class EditPersonDescriptorBuilder {
         try {
             ParserUtil.parseRemark(Optional.of(remark)).ifPresent(descriptor::setRemark);
         } catch (IllegalValueException ive) {
-            throw new IllegalArgumentException("bloodtype is expected to be unique.");
+            throw new IllegalArgumentException("remark is expected to be unique.");
         }
         return this;
     }
@@ -140,6 +141,20 @@ public class EditPersonDescriptorBuilder {
         }
         return this;
     }
+
+    //@@author Ernest
+    /**
+     * Sets the {@code Relationship} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withRelationship(String relation) {
+        try {
+            ParserUtil.parseRelationship(Optional.of(relation)).ifPresent(descriptor::setRelationship);
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("relation is expected to be unique.");
+        }
+        return this;
+    }
+    //@@author
     public EditPersonDescriptor build() {
         return descriptor;
     }

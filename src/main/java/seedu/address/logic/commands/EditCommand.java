@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -29,6 +30,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -54,6 +56,7 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_BLOODTYPE + "BLOODTYPE] "
             + "[" + PREFIX_REMARK + "REMARK]..."
             + "[" + PREFIX_DATE + "DATE]"
+            + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example 1: " + COMMAND_ALIAS + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -62,7 +65,8 @@ public class EditCommand extends UndoableCommand {
             + "Example 2: " + COMMAND_WORD + " 2 "
             + PREFIX_PHONE + "92873847 "
             + PREFIX_EMAIL + "maryjane@example.com "
-            + PREFIX_TAG + "student ";
+            + PREFIX_TAG + "student "
+            + PREFIX_RELATIONSHIP + "JOHN DOE ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -129,9 +133,10 @@ public class EditCommand extends UndoableCommand {
             calendar.setTime(date);
             appointment = new Appointment(updatedName.toString(), calendar);
         }
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedBloodType, updatedTags, updatedRemark, appointment);
+        Relationship updatedRelationship = editPersonDescriptor.getRelationship().orElse(personToEdit.getRelationship());
 
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                updatedBloodType, updatedTags, updatedRemark, appointment, updatedRelationship);
     }
 
     @Override
@@ -165,6 +170,7 @@ public class EditCommand extends UndoableCommand {
         private Remark remark;
         private Set<Tag> tags;
         private Date date;
+        private Relationship relation;
 
         public EditPersonDescriptor() {
         }
@@ -178,6 +184,7 @@ public class EditCommand extends UndoableCommand {
             this.remark = toCopy.remark;
             this.tags = toCopy.tags;
             this.date = toCopy.date;
+            this.relation = toCopy.relation;
         }
 
         /**
@@ -185,7 +192,7 @@ public class EditCommand extends UndoableCommand {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address,
-                    this.bloodType, this.remark, this.date, this.tags);
+                    this.bloodType, this.remark, this.date, this.relation, this.tags);
         }
 
         public void setName(Name name) {
@@ -254,6 +261,14 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(date);
         }
 
+        public void setRelationship(Relationship relation) {
+            this.relation = relation;
+        }
+
+        public Optional<Relationship> getRelationship() {
+            return Optional.ofNullable(relation);
+        }
+
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -276,6 +291,7 @@ public class EditCommand extends UndoableCommand {
                     && getBloodType().equals(e.getBloodType())
                     && getRemark().equals(e.getRemark())
                     && getDate().equals(e.getDate())
+                    && getRelationship().equals(e.getRelationship())
                     && getTags().equals(e.getTags());
 
         }

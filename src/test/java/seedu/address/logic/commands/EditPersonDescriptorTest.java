@@ -9,6 +9,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_BLOODTYPE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RELATIONSHIP_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -59,6 +60,10 @@ public class EditPersonDescriptorTest {
 
         // different remark -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withRemark(VALID_REMARK_BOB).build();
+        assertFalse(DESC_BOB.equals(editedAmy));
+
+        // different relation -> returns false
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withRelationship(VALID_RELATIONSHIP_BOB).build();
         assertFalse(DESC_BOB.equals(editedAmy));
 
         // different tags -> returns false
