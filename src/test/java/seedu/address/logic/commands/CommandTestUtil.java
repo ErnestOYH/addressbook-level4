@@ -82,7 +82,8 @@ public class CommandTestUtil {
     public static final String INVALID_BLOODTYPE_DESC = " " + PREFIX_BLOODTYPE + "ABCDE";
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_DATE =  " " + PREFIX_DATE + "1/1/1 1123:22 "; // not allowed format for date
-    public static final String INVALID_RELATIONSHIP_DESC = " " + PREFIX_RELATIONSHIP + "John%"; // '%' not allowed in names
+    // '%' not allowed in names
+    public static final String INVALID_RELATIONSHIP_DESC = " " + PREFIX_RELATIONSHIP + "John%";
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
