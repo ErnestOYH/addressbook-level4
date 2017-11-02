@@ -133,7 +133,8 @@ public class EditCommand extends UndoableCommand {
             calendar.setTime(date);
             appointment = new Appointment(updatedName.toString(), calendar);
         }
-        Relationship updatedRelationship = editPersonDescriptor.getRelationship().orElse(personToEdit.getRelationship());
+        Relationship updatedRelationship = editPersonDescriptor.getRelationship()
+                .orElse(personToEdit.getRelationship());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
                 updatedBloodType, updatedTags, updatedRemark, appointment, updatedRelationship);

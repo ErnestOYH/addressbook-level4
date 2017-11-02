@@ -10,8 +10,8 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Relationship;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -26,7 +26,16 @@ public class AddRelationshipCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "rel";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a relationship to a person in address book. \n"
-            + COMMAND_ALIAS + ": Shorthand equivalent for relationship. \n";
+            + COMMAND_ALIAS + ": Shorthand equivalent for relationship. \n"
+            + "Parameters: INDEX "
+            + PREFIX_RELATIONSHIP
+            + "John Doe \n"
+            + "Example 1: " + COMMAND_WORD + " 1 "
+            + PREFIX_RELATIONSHIP + "John Doe \n"
+            + "Example 2: " + COMMAND_ALIAS + " 1 "
+            + PREFIX_RELATIONSHIP + "Mary Jane \n"
+            + "Removing Relationship: " + COMMAND_WORD + " 1 "
+            + PREFIX_RELATIONSHIP;
 
     public static final String MESSAGE_SUCCESS_RELATIONSHIP_ADDED = "Relationship added for Person: %1$s";
     public static final String MESSAGE_SUCCESS_RELATIONSHIP_REMOVED = "Relationship removed for Person: %1$s";
